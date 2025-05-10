@@ -124,7 +124,19 @@
       document.addEventListener("click", enableMusic);
     });
 
-    setLanguage("zh"); // 預設中文
+    document.addEventListener("DOMContentLoaded", function () {
+  const bgMusic = document.getElementById("bg-music");
+
+  // 點擊任意地方啟用音樂
+  function enableMusic() {
+    bgMusic.play().catch(e => console.log("播放失敗：", e));
+    document.removeEventListener("click", enableMusic);
+  }
+  document.addEventListener("click", enableMusic);
+
+  // ✅ 初始化預設語言（中文）並啟動 Typed.js
+  setLanguage("zh");
+});
   </script>
 </body>
 </html>
