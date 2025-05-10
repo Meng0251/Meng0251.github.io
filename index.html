@@ -3,16 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>蔡恩典CZ</title>
+  <title>蔡恩典</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 </head>
-<body>
-  <div class="language-toggle">
-    <button onclick="setLanguage('zh')">中文</button>
-    <button onclick="setLanguage('en')">EN</button>
+<body class="dark">
+  <!-- 上方功能列 -->
+  <div class="top-bar">
+    <div class="left-controls">
+      <button onclick="toggleTheme()">🌓</button>
+      <button onclick="toggleMusic()">🎵</button>
+    </div>
+    <div class="right-controls">
+      <button onclick="setLanguage('zh')">中文</button>
+      <button onclick="setLanguage('en')">EN</button>
+    </div>
   </div>
 
+  <!-- 中央內容 -->
   <div class="container">
     <h1><span id="typed"></span></h1>
     <p class="subtitle" data-i18n="subtitle">一位熱愛創作與探索的學生 / 創作者</p>
@@ -24,6 +32,12 @@
     </div>
   </div>
 
+  <!-- 背景音樂 -->
+  <audio id="bg-music" loop>
+  <source src="https://cdn.pixabay.com/audio/2025/04/29/audio_332746.mp3" type="audio/mp3">
+</audio>
+
+  <!-- 語言與主題邏輯 -->
   <script src="lang.js"></script>
   <script>
     const typedStrings = {
@@ -46,9 +60,7 @@
         const key = el.getAttribute("data-i18n");
         el.textContent = i18n[lang][key];
       });
-
-      if (typed) typed.destroy(); // 清除原本 Typed.js
-
+      if (typed) typed.destroy();
       typed = new Typed("#typed", {
         strings: typedStrings[lang],
         typeSpeed: 50,
@@ -58,8 +70,22 @@
       });
     }
 
-    // 預設語言：中文
-    setLanguage("zh");
+    function toggleMusic() {
+      const music = document.getElementById("bg-music");
+      if (music.paused) {
+        music.play();
+      } else {
+        music.pause();
+      }
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      body.classList.toggle("dark");
+      body.classList.toggle("light");
+    }
+
+    setLanguage("zh"); // 預設中文
   </script>
 </body>
 </html>
