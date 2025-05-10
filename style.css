@@ -84,3 +84,16 @@ h1 {
   from { opacity: 0 }
   to { opacity: 1 }
 }
+
+
+.intro-section {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 1rem;
+  line-height: 1.8;
+  text-align: left;
+}
+.intro-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
