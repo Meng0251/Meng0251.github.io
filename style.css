@@ -9,11 +9,32 @@ body {
   justify-content: center;
   height: 100vh;
   flex-direction: column;
+  position: relative;
 }
 
 .container {
   text-align: center;
   animation: fadeIn 2s ease-in;
+}
+
+.language-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.language-toggle button {
+  background: none;
+  border: 1px solid white;
+  color: white;
+  margin-left: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+}
+
+.language-toggle button:hover {
+  background: white;
+  color: black;
 }
 
 h1 {
@@ -45,7 +66,6 @@ h1 {
   color: black;
 }
 
-/* Animations */
 @keyframes fadeIn {
   from { opacity: 0 }
   to { opacity: 1 }
