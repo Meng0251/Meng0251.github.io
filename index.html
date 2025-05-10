@@ -8,7 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 </head>
 <body class="dark">
-  <!-- 上方功能列 -->
+  <!-- 上方功能列（不會被下移） -->
   <div class="top-bar">
     <div class="left-controls">
       <button onclick="toggleTheme()">🌓</button>
@@ -19,45 +19,52 @@
     </div>
   </div>
 
-  <!-- 中央內容 -->
-  <div class="container">
-    <h1><span id="typed"></span></h1>
-    <p class="subtitle" data-i18n="subtitle">一位熱愛創作與探索的學生 / 創作者</p>
+  <!-- 主體內容下移區塊 -->
+  <main class="main-content">
+    <div class="container">
+      <h1><span id="typed"></span></h1>
+      <p class="subtitle" data-i18n="subtitle">一位熱愛創作與探索的學生 / 創作者</p>
 
-    <div class="links">
-      <a href="https://github.com/meng0251" target="_blank">GitHub</a>
-      <a href="mailto:dreyu203@gmail.com">Email</a>
-      <a href="https://instagram.com/meng0251" target="_blank">Instagram</a>
+      <div class="links">
+        <a href="https://github.com/meng0251" target="_blank">GitHub</a>
+        <a href="mailto:dreyu203@gmail.com">Email</a>
+        <a href="https://instagram.com/meng0251" target="_blank">Instagram</a>
+      </div>
     </div>
-  </div>
 
-<!-- 自我介紹區塊 1 -->
-<section class="intro-section" data-i18n-section="intro1">
-  <h2 data-i18n="intro1_title">關於我</h2>
-  <p data-i18n="intro1_text">
-    我是一位對創作、科技、語言有著極大熱情的學生，喜歡用影像、文字與程式探索這個世界。
-    無論是做影片、寫詩、還是寫程式，我總是在尋找「怎麼樣讓大家都能輕鬆明白」。
-    這個網站將會是我創作歷程的記錄與延伸。
-  </p>
-</section>
+    <!-- 自我介紹區塊 1 -->
+    <section class="intro-section" data-i18n-section="intro1">
+      <h2 data-i18n="intro1_title">關於我</h2>
+      <p data-i18n="intro1_text">
+        我是一位對創作、科技、語言有著極大熱情的學生，喜歡用影像、文字與程式探索這個世界。
+        無論是做影片、寫詩、還是寫程式，我總是在尋找「怎麼樣讓大家都能輕鬆明白」。
+        這個網站將會是我創作歷程的記錄與延伸。
+      </p>
+    </section>
 
-<!-- 自我介紹區塊 2 -->
-<section class="intro-section" data-i18n-section="intro2">
-  <h2 data-i18n="intro2_title">未來方向</h2>
-  <p data-i18n="intro2_text">
-    我希望未來能結合科技與人文，創造具有影響力的內容。
-    也許是一部講述科技焦慮的紀錄片，也許是一首記錄日常的歌，
-    甚至是一個能幫助他人的時間管理 App。比起專注單一領域，我更在意不同能力交會時產生的火花。
-  </p>
-</section>
+    <!-- 自我介紹區塊 2 -->
+    <section class="intro-section" data-i18n-section="intro2">
+      <h2 data-i18n="intro2_title">未來方向</h2>
+      <p data-i18n="intro2_text">
+        我希望未來能結合科技與人文，創造具有影響力的內容。
+        也許是一部講述科技焦慮的紀錄片，也許是一首記錄日常的歌，
+        甚至是一個能幫助他人的時間管理 App。比起專注單一領域，我更在意不同能力交會時產生的火花。
+      </p>
+    </section>
 
-<!-- 自我介紹區塊 3 -->
-<section class="intro-section" data-i18n-section="intro3">
-  <h3 data-i18n="intro3_title">使用語言</h3>
-  <p data-i18n="intro3_text">
-    我使用的程式語言包括C++ HTML 還有 PYTHON
-  </p>
-</section>
+    <!-- 自我介紹區塊 3 -->
+    <section class="intro-section" data-i18n-section="intro3">
+      <h3 data-i18n="intro3_title">使用語言</h3>
+      <p data-i18n="intro3_text">
+        我使用的程式語言包括C++ HTML 還有 PYTHON
+      </p>
+    </section>
+  </main>
+
+  <!-- 背景音樂 -->
+  <audio id="bg-music" loop>
+    <source src="https://cdn.pixabay.com/audio/2025/04/29/audio_332746.mp3" type="audio/mp3">
+  </audio>
 
   <!-- 語言與主題邏輯 -->
   <script src="lang.js"></script>
@@ -106,6 +113,16 @@
       body.classList.toggle("dark");
       body.classList.toggle("light");
     }
+
+    // 首次點擊啟用音樂
+    document.addEventListener("DOMContentLoaded", function () {
+      const bgMusic = document.getElementById("bg-music");
+      function enableMusic() {
+        bgMusic.play().catch(e => console.log("播放失敗：", e));
+        document.removeEventListener("click", enableMusic);
+      }
+      document.addEventListener("click", enableMusic);
+    });
 
     setLanguage("zh"); // 預設中文
   </script>
