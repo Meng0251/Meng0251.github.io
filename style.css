@@ -1,40 +1,29 @@
+/* 基本樣式 */
 body {
   margin: 0;
   padding: 0;
-  background-color: #111;
-  color: #fff;
   font-family: 'Courier New', monospace;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
   flex-direction: column;
-  position: relative;
+  height: 100vh;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.dark {
+  background-color: #111;
+  color: #fff;
+}
+
+body.light {
+  background-color: #f5f5f5;
+  color: #111;
 }
 
 .container {
   text-align: center;
   animation: fadeIn 2s ease-in;
-}
-
-.language-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-
-.language-toggle button {
-  background: none;
-  border: 1px solid white;
-  color: white;
-  margin-left: 0.5rem;
-  padding: 0.3rem 0.6rem;
-  cursor: pointer;
-}
-
-.language-toggle button:hover {
-  background: white;
-  color: black;
 }
 
 h1 {
@@ -53,19 +42,44 @@ h1 {
 }
 
 .links a {
-  color: white;
+  color: inherit;
   text-decoration: none;
   margin: 0 1rem;
-  border: 1px solid white;
+  border: 1px solid currentColor;
   padding: 0.5rem 1rem;
   transition: background 0.3s, color 0.3s;
 }
 
 .links a:hover {
-  background: white;
-  color: black;
+  background: currentColor;
+  color: inherit;
 }
 
+/* 上方功能列 */
+.top-bar {
+  position: absolute;
+  top: 20px;
+  width: 100%;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.top-bar button {
+  background: none;
+  border: 1px solid currentColor;
+  color: inherit;
+  padding: 0.3rem 0.6rem;
+  margin: 0 0.2rem;
+  cursor: pointer;
+}
+
+.top-bar button:hover {
+  background: currentColor;
+  color: inherit;
+}
+
+/* 動畫 */
 @keyframes fadeIn {
   from { opacity: 0 }
   to { opacity: 1 }
