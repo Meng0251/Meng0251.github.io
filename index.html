@@ -3,36 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>蔡恩典</title>
+  <title>蔡恩典CZ</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 </head>
 <body>
+  <div class="language-toggle">
+    <button onclick="setLanguage('zh')">中文</button>
+    <button onclick="setLanguage('en')">EN</button>
+  </div>
+
   <div class="container">
     <h1><span id="typed"></span></h1>
-    <p class="subtitle">一位熱愛創作與探索的學生 / 創作者</p>
+    <p class="subtitle" data-i18n="subtitle">一位熱愛創作與探索的學生 / 創作者</p>
 
     <div class="links">
-      <a href="https://github.com/yourname" target="_blank">GitHub</a>
-      <a href="mailto:your@email.com">Email</a>
-      <a href="https://instagram.com/yourname" target="_blank">Instagram</a>
+      <a href="https://github.com/meng0251" target="_blank">GitHub</a>
+      <a href="mailto:dreyu203@gmail.com">Email</a>
+      <a href="https://instagram.com/meng0251" target="_blank">Instagram</a>
     </div>
   </div>
 
+  <script src="lang.js"></script>
   <script>
-    new Typed("#typed", {
-      strings: [
+    const typedStrings = {
+      zh: [
         "你好，我是蔡恩典。",
         "我喜歡創作、寫程式、拍片。",
         "這是我的個人網站，歡迎來到這裡 :)"
       ],
-      typeSpeed: 50,
-      backSpeed: 30,
-      backDelay: 2000,
-      loop: true,
-      showCursor: true,
-      cursorChar: "|"
-    });
+      en: [
+        "Hi, I'm CZ.",
+        "I love creating, coding, and making videos.",
+        "Welcome to my personal site :)"
+      ]
+    };
+
+    let typed;
+
+    function setLanguage(lang) {
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        el.textContent = i18n[lang][key];
+      });
+
+      if (typed) typed.destroy(); // 清除原本 Typed.js
+
+      typed = new Typed("#typed", {
+        strings: typedStrings[lang],
+        typeSpeed: 50,
+        backSpeed: 30,
+        backDelay: 2000,
+        loop: true
+      });
+    }
+
+    // 預設語言：中文
+    setLanguage("zh");
   </script>
 </body>
 </html>
