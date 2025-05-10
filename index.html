@@ -85,19 +85,25 @@
     let typed;
 
     function setLanguage(lang) {
-      document.querySelectorAll("[data-i18n]").forEach(el => {
-        const key = el.getAttribute("data-i18n");
-        el.textContent = i18n[lang][key];
-      });
-      if (typed) typed.destroy();
-      typed = new Typed("#typed", {
-        strings: typedStrings[lang],
-        typeSpeed: 50,
-        backSpeed: 30,
-        backDelay: 2000,
-        loop: true
-      });
-    }
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    el.textContent = i18n[lang][key];
+  });
+
+  if (typed) typed.destroy();
+
+  // 等下一輪 DOM 更新完後再初始化 Typed
+  requestAnimationFrame(() => {
+    typed = new Typed("#typed", {
+      strings: typedStrings[lang],
+      typeSpeed: 50,
+      backSpeed: 30,
+      backDelay: 2000,
+      loop: true
+    });
+  });
+}
+
 
     function toggleMusic() {
       const music = document.getElementById("bg-music");
