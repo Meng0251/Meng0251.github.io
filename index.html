@@ -1,137 +1,308 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>蔡恩典</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-</head>
-<body class="dark">
+  <link rel="icon" href="image\CZicon.png" type="image/png">
+  <style>
+    :root {
+      --bg-light: #fdfdfd;
+      --bg-dark: #121212;
+      --text-light: #111;
+      --text-dark: #f4f4f4;
+      --spacing: 15em;
+    }
+    
+    .portfolio-detail {
+  margin-top: 1em;
+  font-size: 0.95em;
+  color: inherit;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+}
 
+.portfolio-detail.hidden {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
 
-  <!-- 主體內容下移區塊 -->
-  <main class="main-content">
-    <div class="container">
-      <h1><span id="typed"></span></h1>
-      <p class="subtitle" data-i18n="subtitle">一位熱愛創作與探索的學生 / 創作者</p>
+.portfolio-detail:not(.hidden) {
+  max-height: 500px; /* 可視內容最大高度 */
+  opacity: 1;
+}
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Helvetica Neue', 'Noto Sans TC', sans-serif;
+      background: var(--bg-light);
+      color: var(--text-light);
+      letter-spacing: 0.05em;
+      line-height: 1.8;
+      font-size: 16px;
+      transition: background 0.6s ease, color 0.6s ease;
+      background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2), transparent 60%);
+      background-repeat: no-repeat;
+      background-size: 150% 150%;
+      animation: gradientFade 2.5s ease-out forwards;
+    }
 
-      <div class="links">
-        <a href="https://github.com/meng0251" target="_blank">GitHub</a>
-        <a href="mailto:dreyu203@gmail.com">Email</a>
-        <a href="https://instagram.com/meng0251" target="_blank">Instagram</a>
-      </div>
-    </div>
+    @keyframes gradientFade {
+      0% {
+        background-size: 0% 0%;
+        opacity: 0;
+      }
+      100% {
+        background-size: 150% 150%;
+        opacity: 1;
+      }
+    }
 
-    <!-- 自我介紹區塊 1 -->
-    <section class="intro-section" data-i18n-section="intro1">
-      <h2 data-i18n="intro1_title">關於我</h2>
-      <p data-i18n="intro1_text">
-        我是一位對創作、科技、語言有著極大熱情的學生，喜歡用影像、文字與程式探索這個世界。
-        無論是做影片、寫詩、還是寫程式，我總是在尋找「怎麼樣讓大家都能輕鬆明白」。
-        這個網站將會是我創作歷程的記錄與延伸。
-      </p>
-    </section>
+    .dark-mode {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+      background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1), transparent 70%);
+    }
 
-    <!-- 自我介紹區塊 2 -->
-    <section class="intro-section" data-i18n-section="intro2">
-      <h2 data-i18n="intro2_title">未來方向</h2>
-      <p data-i18n="intro2_text">
-        我希望未來能結合科技與人文，創造具有影響力的內容。
-        也許是一部講述科技焦慮的紀錄片，也許是一首記錄日常的歌，
-        甚至是一個能幫助他人的時間管理 App。比起專注單一領域，我更在意不同能力交會時產生的火花。
-      </p>
-    </section>
-
-    <!-- 自我介紹區塊 3 -->
-    <section class="intro-section" data-i18n-section="intro3">
-      <h3 data-i18n="intro3_title">使用語言</h3>
-      <p data-i18n="intro3_text">
-        我使用的程式語言包括C++ HTML 還有 PYTHON
-      </p>
-    </section>
-  </main>
-
-  <!-- 背景音樂 -->
-  <audio id="bg-music" loop>
-    <source src="https://cdn.pixabay.com/audio/2025/04/29/audio_332746.mp3" type="audio/mp3">
-  </audio>
-
-  <!-- 語言與主題邏輯 -->
-  <script src="lang.js"></script>
-  <script>
-    const typedStrings = {
-      zh: [
-        "你好，我是蔡恩典。",
-        "我喜歡創作、寫程式、拍片。"
-      ],
-      en: [
-        "Hi, I'm CZ.",
-        "I love creating, coding, and making videos."
-      ]
-    };
-
-    let typed;
-
-    function setLanguage(lang) {
-  document.querySelectorAll("[data-i18n]").forEach(el => {
-    const key = el.getAttribute("data-i18n");
-    el.textContent = i18n[lang][key];
-  });
-
-  if (typed) typed.destroy();
-
-  // 等下一輪 DOM 更新完後再初始化 Typed
-  requestAnimationFrame(() => {
-    typed = new Typed("#typed", {
-      strings: typedStrings[lang],
-      typeSpeed: 50,
-      backSpeed: 30,
-      backDelay: 2000,
-      loop: true
-    });
-  });
+    header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2em 1em;
+  gap: 1em;
+  background-color: transparent;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+nav, .lang-toggle, .mode-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 
-    function toggleMusic() {
-      const music = document.getElementById("bg-music");
-      if (music.paused) {
-        music.play();
-      } else {
-        music.pause();
+    header strong {
+      font-weight: 600;
+      font-size: 1.1em;
+    }
+
+    nav button, .lang-toggle button, .mode-toggle button {
+      margin: 0 0.5em;
+      background: none;
+      border: none;
+      font-size: 0.95em;
+      color: inherit;
+      cursor: pointer;
+      padding: 0.3em 0.5em;
+      transition: color 0.3s ease;
+    }
+
+    nav button:hover, .lang-toggle button:hover, .mode-toggle button:hover {
+      color: #000;
+    }
+
+    section {
+      max-width: 800px;
+      margin: var(--spacing) auto;
+      padding: 0 1.5em;
+    }
+
+    h1, h2 {
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.6em;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-top: 0.5em;
+    }
+
+    h2 {
+      font-size: 1.4em;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.3em;
+    }
+
+    ul {
+      padding-left: 1.2em;
+    }
+
+    li {
+      margin-bottom: 0.6em;
+    }
+
+    .portfolio-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5em;
+      margin-top: 1em;
+    }
+
+    .portfolio-item {
+      flex: 1 1 calc(50% - 1.5em);
+      background: #fff;
+      padding: 1.2em;
+      border: 1px solid #eee;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+      transition: transform 0.2s ease;
+    }
+
+    .dark-mode .portfolio-item {
+      background: #1e1e1e;
+      border-color: #444;
+    }
+
+    .portfolio-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .portfolio-item {
+        flex: 1 1 100%;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
 
-    function toggleTheme() {
-      const body = document.body;
-      body.classList.toggle("dark");
-      body.classList.toggle("light");
+    #contact {
+      margin-top: 4em;
+      border-top: 1px solid #eee;
+      padding-top: 2em;
+      font-size: 0.95em;
+      color: inherit;
     }
 
-    // 首次點擊啟用音樂
-    document.addEventListener("DOMContentLoaded", function () {
-      const bgMusic = document.getElementById("bg-music");
-      function enableMusic() {
-        bgMusic.play().catch(e => console.log("播放失敗：", e));
-        document.removeEventListener("click", enableMusic);
-      }
-      document.addEventListener("click", enableMusic);
+    #contact ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    #contact li {
+      margin-bottom: 0.4em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .mode-toggle {
+      margin-left: auto;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div><strong>蔡恩典</strong></div>
+  <nav>
+    <button onclick="filterPortfolio('all')">主要</button>
+  </nav>
+  <div class="lang-toggle">
+    <button onclick="setLang('zh')">中文</button>｜<button onclick="setLang('en')">EN</button>
+  </div>
+  <div class="mode-toggle">
+    <button onclick="toggleDarkMode()" id="modeBtn">🌙</button>
+  </div>
+</header>
+
+<section id="intro">
+  <h1 data-zh="嗨，我是蔡恩典" data-en="Hi, There's Cz">嗨，我是蔡恩典</h1>
+  <p data-zh="我是來自台中並富有情感的創作者，
+  我在課餘時間從余光中、徐志摩等著名詩人的故事中攝取靈感，
+  創作一首首富含情感的詩。" 
+     data-en="I'm an emotionally driven creator from Taichung.
+     In my spare time, I draw inspiration from the stories and works of renowned poets like Yu Guangzhong and Xu Zhimo, crafting poems rich with emotion and personal reflection. ">
+     我是來自台中並富有情感的創作者，
+     我在課餘時間從余光中、徐志摩等著名詩人的故事中攝取靈感，
+     創作一首首富含情感的詩。
+  </p>
+</section>
+
+<section id="resume">
+  <h2 data-zh="履歷" data-en="Resume">履歷</h2>
+  <ul>
+    <li data-zh="熟悉 C++ 與 Python" data-en="Familiar with C++ and Python">熟悉 C++ 與 Python</li>
+    <li data-zh="製作過訪談節目與個人影片" data-en="Produced interview shows,and personal videos">製作過訪談節目與個人影片</li>
+    <li data-zh="目前正在學習App/網頁開發與影片剪輯" data-en="Currently learning App/Website development and video editing">目前正在學習 APP/網站 開發與影片剪輯</li>
+  </ul>
+</section>
+
+<section id="portfolio">
+  <h2 data-zh="作品集" data-en="Portfolio">作品集</h2>
+  <div class="portfolio-item" data-category="code" onclick="toggleDetail(this)">
+    <strong data-zh="個人網站" data-en="Personal Website">個人網站</strong>
+    <p data-zh="純 HTML/CSS/JS 製作的響應式個人網站。" data-en="Responsive personal website made with pure HTML/CSS/JS.">純 HTML/CSS/JS 製作的響應式個人網站。</p>
+    <div class="portfolio-detail hidden">
+      <p data-zh="這個網站包括我的個人經歷、作品集。" 
+         data-en="This website includes my personal experiences and portfolio.">
+         這個網站包括我的個人經歷、作品集。
+      </p>
+    </div>
+  </div>
+
+<section id="contact">
+  <h2 data-zh="聯絡我" data-en="Contact Me">聯絡我</h2>
+  <p data-zh="歡迎來信或透過社群與我聯繫！" data-en="Feel free to email or connect with me on social media!">
+    歡迎來信或透過社群與我聯繫！
+  </p>
+  <ul>
+    <li>X：<a href="https://x.com/dreyu203">@dreyu203</a></li>
+    <li>???：<a href="https://www.edian.work" target="_blank">???</a></li>
+    <li>Instagram：<a href="https://instagram.com/meng0251" target="_blank">@meng0251</a></li>
+  </ul>
+</section>
+
+
+
+<script>
+  function filterPortfolio(category) {
+    const items = document.querySelectorAll('.portfolio-item');
+    items.forEach(item => {
+      item.classList.toggle('hidden', category !== 'all' && item.dataset.category !== category);
     });
-
-    document.addEventListener("DOMContentLoaded", function () {
-  const bgMusic = document.getElementById("bg-music");
-
-  // 點擊任意地方啟用音樂
-  function enableMusic() {
-    bgMusic.play().catch(e => console.log("播放失敗：", e));
-    document.removeEventListener("click", enableMusic);
   }
-  document.addEventListener("click", enableMusic);
 
-  // ✅ 初始化預設語言（中文）並啟動 Typed.js
-  setLanguage("zh");
-});
-  </script>
+  function setLang(lang) {
+    const elements = document.querySelectorAll('[data-' + lang + ']');
+    elements.forEach(el => {
+      el.textContent = el.getAttribute('data-' + lang);
+    });
+    document.documentElement.lang = lang;
+  }
+
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const btn = document.getElementById('modeBtn');
+    btn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+  }
+
+  function toggleDetail(item) {
+  const detail = item.querySelector('.portfolio-detail');
+  if (detail) {
+    detail.classList.toggle('hidden');
+  }
+  } 
+
+</script>
+
 </body>
 </html>
