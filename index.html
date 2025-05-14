@@ -30,12 +30,13 @@
       position: relative;
       z-index: 1;
       height: 100%;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       text-align: center;
-      padding: 2em;
+      padding: 3em 1.5em 5em;
     }
 
     .avatar {
@@ -52,10 +53,14 @@
       margin: 0.2em 0;
     }
 
-    p {
+    p.subtitle {
       font-size: 1.2em;
-      margin: 0.5em 0 1.5em;
+      margin-bottom: 1.5em;
       color: #aaa;
+    }
+
+    .links {
+      margin-bottom: 2em;
     }
 
     .links a {
@@ -68,6 +73,31 @@
 
     .links a:hover {
       opacity: 0.6;
+    }
+
+    .about {
+      max-width: 600px;
+      text-align: left;
+      font-size: 1em;
+      line-height: 1.8;
+      color: #ccc;
+      background-color: rgba(255, 255, 255, 0.03);
+      padding: 1.5em;
+      border-radius: 12px;
+    }
+
+    .about h2 {
+      font-size: 1.4em;
+      margin-bottom: 0.5em;
+      color: #fff;
+    }
+
+    .about ul {
+      padding-left: 1.5em;
+    }
+
+    .about li {
+      margin-bottom: 0.3em;
     }
 
     @media (max-width: 600px) {
@@ -91,13 +121,37 @@
   <canvas id="rain"></canvas>
 
   <div class="content">
-    <img class="avatar" src="channels4_profile.jpg" alt="頭像" />
+    <img class="avatar" src="your-avatar.jpg" alt="頭像" />
     <h1>菜恩典</h1>
-    <p>工程師 / 創作者 / 學生</p>
+    <p class="subtitle">工程師 / 創作者 / 學生</p>
     <div class="links">
       <a href="https://github.com/yourname" target="_blank">GitHub</a>
       <a href="https://instagram.com/yourname" target="_blank">Instagram</a>
       <a href="mailto:your@email.com">Email</a>
+    </div>
+
+    <div class="about">
+      <h2>關於我</h2>
+      <p>
+        我來自台灣的台中市，目前是一個就讀國一的初中生，<br><br>
+        我目前正在學習程式設計（包括 Python、C/C++、HTML、CSS、JavaScript 等等），<br><br>
+        我對文字創作也富有興趣，我希望可以將這兩者結合在一起，創作出屬於我的程式設計作品。
+      </p>
+
+      <h2 style="margin-top: 1.5em;">證照</h2>
+      <ul>
+        <li>IC3 青少年資安證照</li>
+      </ul>
+
+      <h2 style="margin-top: 1.5em;">技能</h2>
+      <ul>
+        <li>Python（大約高中程度）</li>
+        <li>C++（大約初中程度）</li>
+        <li>詩歌創作（校內佳作）</li>
+        <li>資訊科技（初中）</li>
+        <li>基礎的作曲能力</li>
+        <li>縮圖製作</li>
+      </ul>
     </div>
   </div>
 
