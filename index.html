@@ -133,67 +133,6 @@
         height: 90px;
       }
     }
-.portfolio {
-  margin-top: 3em;
-  max-width: 800px;
-  text-align: center;
-}
-
-.portfolio h2 {
-  font-size: 2em;
-  margin-bottom: 1em;
-}
-
-.filters {
-  margin-bottom: 1.5em;
-}
-
-.filters button {
-  background: none;
-  border: 1px solid #888;
-  color: #ccc;
-  padding: 0.4em 1em;
-  margin: 0 0.5em;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.filters button:hover,
-.filters button.active {
-  background-color: #fff;
-  color: #111;
-}
-
-.items {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.2em;
-}
-
-.item {
-  background-color: rgba(255, 255, 255, 0.05);
-  padding: 1em;
-  border-radius: 12px;
-  transition: transform 0.3s ease;
-  text-align: left;
-}
-
-.item:hover {
-  transform: scale(1.03);
-  background-color: rgba(255, 255, 255, 0.08);
-}
-
-.item h3 {
-  margin-bottom: 0.5em;
-  color: #fff;
-}
-
-.item p {
-  color: #bbb;
-  font-size: 0.95em;
-}
-
   </style>
 </head>
 <body>
@@ -234,20 +173,6 @@
     </div>
   </div>
 
-<div class="portfolio">
-  <h2>作品展示</h2>
-  <div class="filters">
-    <button data-filter="all" class="active">全部</button>
-    <button data-filter="code">程式</button>
-    <button data-filter="creative">創作</button>
-  </div>
-  <div class="items">
-    <div class="item code">
-      <h3>個人網站</h3>
-      <p>目前這個作品展示頁就是！</p>
-    </div>
-  </div>
-</div>
   <footer>
     &copy; <span id="year"></span> 蔡恩典 · 作品展示頁
   </footer>
@@ -306,67 +231,6 @@
 
     // 自動填入年份
     document.getElementById('year').textContent = new Date().getFullYear();
-.portfolio {
-  margin-top: 3em;
-  max-width: 800px;
-  text-align: center;
-}
-
-.portfolio h2 {
-  font-size: 2em;
-  margin-bottom: 1em;
-}
-
-.filters {
-  margin-bottom: 1.5em;
-}
-
-.filters button {
-  background: none;
-  border: 1px solid #888;
-  color: #ccc;
-  padding: 0.4em 1em;
-  margin: 0 0.5em;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.filters button:hover,
-.filters button.active {
-  background-color: #fff;
-  color: #111;
-}
-
-.items {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.2em;
-}
-
-.item {
-  background-color: rgba(255, 255, 255, 0.05);
-  padding: 1em;
-  border-radius: 12px;
-  transition: transform 0.3s ease;
-  text-align: left;
-}
-
-.item:hover {
-  transform: scale(1.03);
-  background-color: rgba(255, 255, 255, 0.08);
-}
-
-.item h3 {
-  margin-bottom: 0.5em;
-  color: #fff;
-}
-
-.item p {
-  color: #bbb;
-  font-size: 0.95em;
-}
-  
-</script>
+  </script>
 </body>
 </html>
