@@ -1,81 +1,157 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <title>蔡恩典</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>菜恩典</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Noto Sans TC', sans-serif;
+      background: #111;
+      color: #fff;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2em;
+    }
+
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1em;
+      border: 2px solid #fff;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin: 0.2em 0;
+    }
+
+    p {
+      font-size: 1.2em;
+      margin: 0.5em 0 1.5em;
+      color: #aaa;
+    }
+
+    .links a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 1em;
+      font-size: 1.1em;
+      transition: opacity 0.3s ease;
+    }
+
+    .links a:hover {
+      opacity: 0.6;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2em;
+      }
+
+      .links a {
+        display: block;
+        margin: 0.5em 0;
+      }
+
+      .avatar {
+        width: 90px;
+        height: 90px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <canvas id="rain"></canvas>
 
-  <!-- Top Bar -->
-  <header class="top-bar">
-    <div class="logo">About</div>
-    <div class="social-icons">
-      <a href="http://instagram.com/meng0251"><img src="ig.png" alt="IG"></a>
-      <a href="#"><img src="github.png" alt="FB"></a>
-      <a href="https://space.bilibili.com/3546657075497111?spm_id_from=333.1007.0.0"><img src="施.png" alt="YT"></a>
+  <div class="content">
+    <img class="avatar" src="channels4_profile.jpg" alt="頭像" />
+    <h1>菜恩典</h1>
+    <p>工程師 / 創作者 / 學生</p>
+    <div class="links">
+      <a href="https://github.com/yourname" target="_blank">GitHub</a>
+      <a href="https://instagram.com/yourname" target="_blank">Instagram</a>
+      <a href="mailto:your@email.com">Email</a>
     </div>
-  </header>
-
-
-  <!-- Main Section -->
-  <section class="hero" id="home">
-    <div class="vertical-title">
-      <span>蔡</span><span>恩</span><span>典</span>
-    </div>
-    <div class="scroll-down">↓ 滑動看看</div>
-  <svg class="animated-curves" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
-    <path d="M0,200 C600,100 1200,300 1920,200" />
-    <path d="M0,400 C500,300 1400,500 1920,400" />
-    <path d="M0,600 C400,500 1200,700 1920,600" />
-    <path d="M0,800 C700,700 1500,900 1920,800" />
-  </svg>
-</div>
-
-  </section>
- <div class="line-animation" id="lineAnimation">
-    <div class="line"></div>
-    <div class="line"></div>
-    <div class="line"></div>
-    <div class="line merge-line"></div>
   </div>
 
+  <script>
+    const canvas = document.getElementById('rain');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
+    let raindrops = [];
 
+    for (let i = 0; i < 300; i++) {
+      raindrops.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        length: Math.random() * 20 + 10,
+        speed: Math.random() * 3 + 2
+      });
+    }
 
-  <!-- Section Content -->
-  <section class="content" id="about">
-    <div class="block">
-      <h2>關於我</h2>
-      <p><br>我來自台灣的台中市，目前是一個就讀國一的初中生，<br><br>我目前正在學習程式設計(包括Python, C/C++, HTML, CSS, JavaScript等等)，<br><br>我對文字創作也富有興趣，我希望可以將這兩者結合在一起，創作出屬於我的程式設計作品。
-</p>
-    </div>
-    <div class="block">
-      <h2>證照</h2>
-      <p><br>。IC3青少年資安證照</p>
-    </div>
-    <div class="block">
-      <h2>技能</h2>
-      <p><br>我的專長與技能包括：<br><br>。Python(大約高中)<br><br>。C++（大約初中程度）<br><br>。詩歌創作（校內佳作）<br><br>。資訊科技（初中）<br><br>。基礎的作曲能力<br><br>。縮圖製作
-</p>
-    </div>
-  </section>
+    function drawRain() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let drop of raindrops) {
+        ctx.moveTo(drop.x, drop.y);
+        ctx.lineTo(drop.x, drop.y + drop.length);
+      }
+      ctx.stroke();
+      moveRain();
+    }
 
-<h2 class="section-title">合作夥伴</h2>
-<div class="text-image-row">
-  <img src="image.jpg" alt="你的照片" class="profile-image">
-  <div class="text-content">
-    <h2>張騫宇</h2>
-    <p>Music Production</p>
-  </div>
-</div>
+    function moveRain() {
+      for (let drop of raindrops) {
+        drop.y += drop.speed;
+        if (drop.y > canvas.height) {
+          drop.y = -drop.length;
+          drop.x = Math.random() * canvas.width;
+        }
+      }
+    }
 
+    function loop() {
+      drawRain();
+      requestAnimationFrame(loop);
+    }
 
-  <!-- Footer -->
-  <footer class="footer">
-    &copy; 2025 CZ，網站由蔡恩典製作。
-  </footer>
+    loop();
 
-  <script src="script.js"></script>
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
 </body>
 </html>
