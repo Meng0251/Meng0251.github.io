@@ -133,6 +133,33 @@
         height: 90px;
       }
     }
+    .footer {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-links {
+  margin-top: 15px;
+}
+
+.footer-links a {
+  color: #cccccc;
+  margin: 0 10px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #ffffff;
+}
+
   </style>
 </head>
 <body>
@@ -173,9 +200,16 @@
     </div>
   </div>
 
-  <footer>
-    &copy; <span id="year"></span> 蔡恩典 · 作品展示頁
-  </footer>
+  <footer class="footer">
+  <div class="footer-container">
+    <p>&copy; 2025 蔡恩典 All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#">Intro</a>
+      <a href="#">作品集</a>
+    </div>
+  </div>
+</footer>
+
 
   <script>
     const canvas = document.getElementById('rain');
