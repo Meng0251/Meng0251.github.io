@@ -1,0 +1,9 @@
+    <div class="certificates" style="max-width: 600px; text-align: left; font-size: 1em; line-height: 1.8; color: #ccc; background-color: rgba(255, 255, 255, 0.03); padding: 1.5em; border-radius: 12px; margin-top: 2em;">
+  <h2 style="font-size: 1.4em; margin-bottom: 0.5em; color: #fff;">我的證照</h2>
+  <ul style="padding-left: 1.5em; list-style: none;">
+    <li style="margin-bottom: 1em;">
+      <strong>IC3 青少年資安證照</strong><br>
+      <img src="certificates/ic3.jpg" alt="IC3 證照" style="width: 100%; max-width: 400px; border-radius: 8px; margin-top: 0.5em;">
+    </li>
+  </ul>
+</div>
