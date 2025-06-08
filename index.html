@@ -146,62 +146,6 @@
         height: 90px;
       }
     }
-
-    .contact-button-wrapper {
-  margin-top: 2em;
-  display: flex;
-  justify-content: center;
-}
-
-.contact-button {
-  position: relative;
-  display: inline-block;
-  padding: 0.75em 2em;
-  font-size: 1.1em;
-  color: #fff;
-  background-color: #111;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  z-index: 1;
-  text-decoration: none;
-  overflow: hidden;
-}
-
-.contact-button::before {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: conic-gradient(from 0deg, #00f0ff, #a6f, #00f0ff);
-  animation: rotate-border 4s linear infinite;
-  border-radius: 999px;
-  z-index: -1;
-}
-
-.contact-button::after {
-  content: "";
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  right: 2px;
-  bottom: 2px;
-  background-color: #111;
-  border-radius: 999px;
-  z-index: -1;
-}
-
-@keyframes rotate-border {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
   </style>
 </head>
 <body>
@@ -255,9 +199,6 @@
       <img src="certificates/ic3.jpg" alt="IC3 證照" style="width: 100%; max-width: 400px; border-radius: 8px; margin-top: 0.5em;">
     </li>
   </ul>
-      </div>
-      <div class="contact-button-wrapper">
-  <a href="mailto:dreyu203@gmail.com" class="contact-button">聯絡我</a>
 </div>
 
 
@@ -337,18 +278,17 @@
           day: 'numeric'
         });
 
-        const embed = `
+        const embed = 
           <iframe width="100%" height="315"
             src="https://www.youtube.com/embed/${videoId}"
             frameborder="0" allowfullscreen style="border-radius: 12px;">
           </iframe>
-        `;
+        ;
 
         document.getElementById("latest-video").innerHTML = embed;
         document.getElementById("latest-video-title").textContent = videoTitle;
-        document.getElementById("latest-video-date").textContent = `發布於：${formattedDate}`;
+        document.getElementById("latest-video-date").textContent = 發布於：${formattedDate};
       });
   </script>
 </body>
 </html>
-
