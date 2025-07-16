@@ -1,250 +1,147 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" class="scroll-smooth">
+<html lang="zh-Hant">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>蔡恩典 TND</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-  #particle-canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-  }
-  #title-particles {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-  }
-  #wave-svg {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 10rem;
-    z-index: 1;
-  }
-  header {
-    position: relative;
-    overflow: hidden;
-    user-select: none;
-    min-height: 100vh; /* 一開始高度佔滿全螢幕 */
-    padding-top: 6rem;
-    padding-bottom: 6rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem; /* 標題行間距加大 */
-    line-height: 1.7; /* 行距增加 */
-    color: white;
-  }
-  header > div.relative {
-    position: relative;
-    z-index: 10; /* 文字置頂 */
-    text-align: center;
-    max-width: 64rem;
-    width: 100%;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-  header h1 {
-    font-size: 4rem; /* 字體適度放大 */
-    font-weight: 900;
-    letter-spacing: -0.03em;
-    margin-bottom: 0;
-  }
-  header p {
-    font-size: 1.6rem;
-    color: #cbd5e1;
-    margin-top: 0;
-  }
-  /* 滑鼠跟隨高光，只限header內 */
-  #spotlight {
-    pointer-events: none;
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle 150px at center, rgba(255,255,255,0.25), transparent 80%);
-    border-radius: 50%;
-    mix-blend-mode: screen;
-    transform: translate(-50%, -50%);
-    transition: opacity 0.3s ease;
-    opacity: 0;
-    z-index: 11;
-    top: 0;
-    left: 0;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>蔡恩典</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .bg-animate {
+      background: linear-gradient(-45deg, #1f1f1f, #3f3f3f, #1f1f1f);
+      background-size: 400% 400%;
+      animation: gradientMove 10s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .line {
+      position: absolute;
+      width: 1px;
+      height: 100px;
+      background-color: rgba(255, 255, 255, 0.2);
+      animation: floatLine linear infinite;
+    }
+
+    @keyframes floatLine {
+      0% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-200px);
+        opacity: 0;
+      }
+    }
+
+    .dot {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background-color: white;
+      border-radius: 9999px;
+      opacity: 0.3;
+      animation: floatDot infinite linear;
+    }
+
+    @keyframes floatDot {
+      0% {
+        transform: translateY(0px);
+        opacity: 0.3;
+      }
+      50% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-20px);
+        opacity: 0.3;
+      }
+    }
+
+    /* 雲霧效果 */
+    .fog {
+      position: absolute;
+      width: 400px;
+      height: 300px;
+      background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.07), transparent);
+      filter: blur(30px);
+      opacity: 0.5;
+      animation: fogMove 40s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes fogMove {
+      0% {
+        transform: translateX(-50px) translateY(0px) scale(1);
+        opacity: 0.3;
+      }
+      50% {
+        transform: translateX(50px) translateY(10px) scale(1.1);
+        opacity: 0.5;
+      }
+      100% {
+        transform: translateX(-50px) translateY(0px) scale(1);
+        opacity: 0.3;
+      }
+    }
+  </style>
 </head>
-<body class="bg-gray-900 text-white min-h-screen flex flex-col">
-  <!-- 標題區 -->
-  <header>
-    <!-- 小圓點背景 Canvas -->
-    <canvas id="title-particles"></canvas>
+<body class="bg-animate flex flex-col items-center justify-center h-screen relative text-center text-white">
+  <!-- 雲霧 -->
+  <div class="fog" style="top: 20%; left: 30%; animation-delay: 0s;"></div>
+  <div class="fog" style="top: 30%; left: 50%; animation-delay: 10s;"></div>
+  <div class="fog" style="top: 25%; left: 70%; animation-delay: 20s;"></div>
 
-    <!-- 大粒子背景 Canvas -->
-    <canvas id="particle-canvas"></canvas>
+  <!-- 中央主標題 -->
+  <h1 class="text-6xl font-bold tracking-widest z-10 mb-4">COMING SOON</h1>
 
-    <div class="relative z-10">
-      <h1>蔡恩典 TND</h1>
-      <p>網頁設計學習者・觀察者・創作者</p>
-    </div>
+  <!-- Discord 圖片連結 -->
+  <a href="https://discord.gg/xjRhHNdK2K" target="_blank" class="z-10 hover:scale-110 transition-transform duration-300 mb-6">
+    <img src="images1.png" alt="加入 Discord" class="w-12 h-12 opacity-80 hover:opacity-100" />
+  </a>
 
-    <svg id="wave-svg" viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill="#1f2937" fill-opacity="0.7" d="M0,224L48,213.3C96,203,192,181,288,165.3C384,149,480,139,576,133.3C672,128,768,128,864,122.7C960,117,1056,107,1152,122.7C1248,139,1344,181,1392,202.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
-        <animate attributeName="d" dur="10s" repeatCount="indefinite" values="
-          M0,224L48,213.3C96,203,192,181,288,165.3C384,149,480,139,576,133.3C672,128,768,128,864,122.7C960,117,1056,107,1152,122.7C1248,139,1344,181,1392,202.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z;
-          M0,192L48,181.3C96,171,192,149,288,154.7C384,160,480,192,576,202.7C672,213,768,203,864,176C960,149,1056,107,1152,101.3C1248,96,1344,128,1392,144L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z;
-          M0,224L48,213.3C96,203,192,181,288,165.3C384,149,480,139,576,133.3C672,128,768,128,864,122.7C960,117,1056,107,1152,122.7C1248,139,1344,181,1392,202.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z" />
-      </path>
-    </svg>
+  <!-- 頁面底部連結 -->
+  <div class="absolute bottom-6 z-10 flex space-x-6 text-sm text-white/70 hover:[&>a]:text-white transition-all">
+    <a href="https://edian.work/TND" target="_blank" class="hover:underline">蔡恩典</a>
+    <a href="https://edian.work/eric" target="_blank" class="hover:underline">Eric</a>
+    <a href="https://edian.work/ysx" target="_blank" class="hover:underline">wcwwpan</a>
+  </div>
 
-    <div id="spotlight"></div>
-  </header>
-
-  <!-- 主內容 -->
-  <main class="flex-grow max-w-4xl mx-auto p-10 space-y-24 text-white">
-  <section id="about" class="max-w-3xl mx-auto px-6 py-16">
-    <h2 class="text-4xl font-extrabold mb-8 border-b-4 border-indigo-600 inline-block pb-2">關於我</h2>
-    <p class="mb-6 leading-loose text-xl">
-      我來自台灣的台中市，目前是一個就讀國一的初中生，<br />
-      我目前正在學習程式設計（包括 Python、C/C++、HTML、CSS、JavaScript 等等），<br />
-      我對文字創作也富有興趣，我希望可以將這兩者結合在一起，創作出屬於我的程式設計作品。
-    </p>
-    <h3 class="text-2xl font-semibold mb-4">證照</h3>
-    <ul class="list-disc list-inside mb-8 text-xl leading-loose">
-      <li>IC3 青少年資安證照</li>
-    </ul>
-    <h3 class="text-2xl font-semibold mb-4">技能</h3>
-    <ul class="list-disc list-inside space-y-2 text-xl leading-loose">
-      <li>Python（大約高中程度）</li>
-      <li>C++（大約初中程度）</li>
-      <li>詩歌創作（校內佳作）</li>
-      <li>資訊科技（初中）</li>
-      <li>基礎的作曲能力</li>
-      <li>縮圖製作</li>
-    </ul>
-  </section>
-</main>
-
-
+  <!-- 白線與白點 -->
   <script>
-    // 大粒子背景設定 (particle-canvas)
-    const particleCanvas = document.getElementById('particle-canvas');
-    const pCtx = particleCanvas.getContext('2d');
-    let pWidth, pHeight;
-    function resizeParticleCanvas() {
-      pWidth = particleCanvas.width = window.innerWidth;
-      pHeight = particleCanvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeParticleCanvas);
-    resizeParticleCanvas();
-
-    class Particle {
-      constructor() {
-        this.x = Math.random() * pWidth;
-        this.y = Math.random() * pHeight;
-        this.size = Math.random() * 3 + 1;
-        this.speedX = (Math.random() - 0.5) * 0.7;
-        this.speedY = (Math.random() - 0.5) * 0.7;
-        this.alpha = Math.random() * 0.5 + 0.1;
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x < 0 || this.x > pWidth) this.speedX = -this.speedX;
-        if (this.y < 0 || this.y > pHeight) this.speedY = -this.speedY;
-      }
-      draw() {
-        pCtx.beginPath();
-        pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        pCtx.fillStyle = `rgba(255,255,255,${this.alpha})`;
-        pCtx.fill();
-      }
+    const lineCount = 60;
+    for (let i = 0; i < lineCount; i++) {
+      const line = document.createElement('div');
+      line.className = 'line';
+      line.style.left = `${Math.random() * 100}vw`;
+      line.style.top = `${Math.random() * 100}vh`;
+      line.style.animationDuration = `${5 + Math.random() * 10}s`;
+      line.style.animationDelay = `${Math.random() * 5}s`;
+      document.body.appendChild(line);
     }
 
-    const particles = [];
-    for (let i = 0; i < 120; i++) {
-      particles.push(new Particle());
+    const dotCount = 150;
+    for (let i = 0; i < dotCount; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      dot.style.left = `${Math.random() * 100}vw`;
+      dot.style.top = `${Math.random() * 100}vh`;
+      dot.style.animationDuration = `${4 + Math.random() * 6}s`;
+      dot.style.animationDelay = `${Math.random() * 5}s`;
+      document.body.appendChild(dot);
     }
-
-    function animateParticles() {
-      pCtx.clearRect(0, 0, pWidth, pHeight);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-      requestAnimationFrame(animateParticles);
-    }
-    animateParticles();
-
-    // 標題區小圓點背景動畫 (title-particles)
-    const titleCanvas = document.getElementById('title-particles');
-    const tCtx = titleCanvas.getContext('2d');
-    let tWidth, tHeight;
-    function resizeTitleCanvas() {
-      tWidth = titleCanvas.width = titleCanvas.clientWidth;
-      tHeight = titleCanvas.height = titleCanvas.clientHeight;
-    }
-    window.addEventListener('resize', resizeTitleCanvas);
-    resizeTitleCanvas();
-
-    class Dot {
-      constructor() {
-        this.x = Math.random() * tWidth;
-        this.y = Math.random() * tHeight;
-        this.radius = Math.random() * 1.2 + 0.5;
-        this.alpha = Math.random() * 0.5 + 0.2;
-        this.alphaChange = (Math.random() * 0.02 + 0.005) * (Math.random() > 0.5 ? 1 : -1);
-      }
-      update() {
-        this.alpha += this.alphaChange;
-        if(this.alpha <= 0.2) {
-          this.alpha = 0.2;
-          this.alphaChange = -this.alphaChange;
-        } else if(this.alpha >= 0.7) {
-          this.alpha = 0.7;
-          this.alphaChange = -this.alphaChange;
-        }
-      }
-      draw() {
-        tCtx.beginPath();
-        tCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        tCtx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
-        tCtx.fill();
-      }
-    }
-
-    const dots = [];
-    for(let i = 0; i < 120; i++) {
-      dots.push(new Dot());
-    }
-
-    function animateDots() {
-      tCtx.clearRect(0, 0, tWidth, tHeight);
-      dots.forEach(dot => {
-        dot.update();
-        dot.draw();
-      });
-      requestAnimationFrame(animateDots);
-    }
-    animateDots();
-
-    // 滑鼠跟隨高光
-    const spotlight = document.getElementById('spotlight');
-    document.querySelector('header').addEventListener('mousemove', e => {
-      spotlight.style.opacity = 1;
-      spotlight.style.left = e.clientX + 'px';
-      spotlight.style.top = e.clientY + 'px';
-    });
-    document.querySelector('header').addEventListener('mouseleave', () => {
-      spotlight.style.opacity = 0;
-    });
   </script>
 </body>
 </html>
