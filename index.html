@@ -96,12 +96,10 @@
         
         <p class="ciallo">Ciallo～(∠・ω&lt; )⌒☆</p>
         <h3>嗨，我是蔡恩典。</h3>
-        <p>早安，我是一個國中生，同時也是一個買夠廚（MyGO!!!!!）。</p>
+        <p>早安，我是一個國中生，我喜歡數學還有國文，最喜歡的作家是馬伯庸，小說非常好看。</p>
         <p>我平常出沒在 Instagram 還有 Discord，發一些無聊的想法，還有瘋狂的推我喜歡的角色（像是流螢）。</p>
-        <p>我於 2012 年出生於台中市，我認為自己是最後一批 Z 世代的小孩。對我來說，那些沉迷於抖音/小紅書的人還是一樣弱智，無關年齡。</p>
-        
-        <img src="https://hackmd.io/_uploads/HyyhzjDnll.jpg" alt="Profile Image">
-
+        <p>我於 2012 年出生於台北市，但現在住在台中。</p>
+        <p>很想要被大家關注，但一直被忽視(悲)。</p>
         <p>我的日常興趣主要是 <strong>文字創作</strong>、玩 <strong>遊戲</strong>（崩鐵、Minecraft）、<strong>寫程式</strong>（正在學習 <code>C++</code> 和 <code>Python</code>）還有在網路上說一些垃圾話。</p>
 
         <hr>
@@ -119,12 +117,13 @@
 
         <h2>政治傾向</h2>
         <blockquote>
-            政治可以吃嗎:P
+            政治可以吃嗎？(bushi)
+            <br>主要不碰政治討論(太瘋狂了)但被cue到就會出來看
         </blockquote>
 
         <h2>老婆們</h2>
         <ul>
-            <li>流螢、芙寧娜、蒂娜・霍華德、昔漣、長夜月</li>
+            <li>流螢</li><li>芙寧娜</li><li>蒂娜・霍華德</li>
         </ul>
 
         <h2>願望清單 🌟</h2>
@@ -135,12 +134,20 @@
             <li>在 STEAM 上架一款遊戲</li>
         </ul>
 
-        <hr>
-        <h4 style="text-align: center;">流螢很可愛的你們知道嗎owo</h4>
+        
+        <h2 style="text-align: center;">流螢很可愛的你們知道嗎owo</h2>
         <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
             <img src="https://hackmd.io/_uploads/HyjqGiv2ge.jpg" style="width: 45%; min-width: 280px;">
             <img src="https://hackmd.io/_uploads/S1eoMjDhle.jpg" style="width: 45%; min-width: 280px;">
         </div>
+        
+        <h2 style="text-align: center;">Neuro也很可愛的你們知道嗎awa</h2>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+            <img src="https://storage.moegirl.org.cn/moegirl/commons/c/c3/Neuro-sama_V3_preview.png!/fw/280?v=20250117085709" style="width: 45%; min-width: 280px;">
+        
+        </div>
+
+        
 
         <div class="footer">
             聯絡我：<a href="mailto:dreyu203@gmail.com" class="custom-link">點這個:D</a>
@@ -151,11 +158,90 @@
         // 聖誕節特效：僅在 12 月出現 (或在此手動改為 0~11 進行測試)
         const now = new Date();
         const month = now.getMonth(); 
+        const d = now.getDate();
 
         if (month === 0) { 
             function createSnowflake() {
                 const flake = document.createElement('div');
                 flake.innerHTML = '🧧';
+                flake.classList.add('snowflake');
+                flake.style.left = Math.random() * 100 + 'vw';
+                flake.style.fontSize = Math.random() * 10 + 10 + 'px';
+                flake.style.opacity = Math.random();
+                document.body.appendChild(flake);
+
+                let pos = -10;
+                let horizontalPos = parseFloat(flake.style.left);
+                const timer = setInterval(() => {
+                    pos += 1.5;
+                    horizontalPos += Math.sin(pos / 20) / 2;
+                    flake.style.top = pos + 'px';
+                    flake.style.left = horizontalPos + 'vw';
+                    if (pos > window.innerHeight) {
+                        clearInterval(timer);
+                        flake.remove();
+                    }
+                }, 20);
+            }
+            setInterval(createSnowflake, 300);
+        }
+
+        if (month === 1 && d == 3) { 
+            function createSnowflake() {
+                const flake = document.createElement('div');
+                flake.innerHTML = '🎂';
+                flake.classList.add('snowflake');
+                flake.style.left = Math.random() * 100 + 'vw';
+                flake.style.fontSize = Math.random() * 10 + 10 + 'px';
+                flake.style.opacity = Math.random();
+                document.body.appendChild(flake);
+
+                let pos = -10;
+                let horizontalPos = parseFloat(flake.style.left);
+                const timer = setInterval(() => {
+                    pos += 1.5;
+                    horizontalPos += Math.sin(pos / 20) / 2;
+                    flake.style.top = pos + 'px';
+                    flake.style.left = horizontalPos + 'vw';
+                    if (pos > window.innerHeight) {
+                        clearInterval(timer);
+                        flake.remove();
+                    }
+                }, 20);
+            }
+            setInterval(createSnowflake, 300);
+        }
+
+        if (month === 10 && d == 3) { 
+            function createSnowflake() {
+                const flake = document.createElement('div');
+                flake.innerHTML = '🌙';
+                flake.classList.add('snowflake');
+                flake.style.left = Math.random() * 100 + 'vw';
+                flake.style.fontSize = Math.random() * 10 + 10 + 'px';
+                flake.style.opacity = Math.random();
+                document.body.appendChild(flake);
+
+                let pos = -10;
+                let horizontalPos = parseFloat(flake.style.left);
+                const timer = setInterval(() => {
+                    pos += 1.5;
+                    horizontalPos += Math.sin(pos / 20) / 2;
+                    flake.style.top = pos + 'px';
+                    flake.style.left = horizontalPos + 'vw';
+                    if (pos > window.innerHeight) {
+                        clearInterval(timer);
+                        flake.remove();
+                    }
+                }, 20);
+            }
+            setInterval(createSnowflake, 300);
+        }
+
+        if (month === 11) { 
+            function createSnowflake() {
+                const flake = document.createElement('div');
+                flake.innerHTML = '❄️';
                 flake.classList.add('snowflake');
                 flake.style.left = Math.random() * 100 + 'vw';
                 flake.style.fontSize = Math.random() * 10 + 10 + 'px';
