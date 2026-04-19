@@ -6,15 +6,20 @@
     <title>三凡凡-2030考上台大數學系</title>
     <style>
         :root {
-            --bg-color: #050505;
-            --text-primary: #ffffff;
-            /* 粉藍與粉紅配色 */
+            --bg-color: #08080c;
+            --text-primary: #e0e0e0;
             --accent-blue: #a3eaff;
             --accent-pink: #ffb7ff;
-            --dim-color: #777;
-            --header-line: rgba(255, 183, 255, 0.2);
-            --card-bg: rgba(10, 10, 15, 0.85);
+            --dim-color: #888;
+            --header-line: rgba(255, 183, 255, 0.15);
+            --card-bg: rgba(15, 15, 20, 0.7);
             --highlight: #ff0080;
+            --container-width: 750px;
+            --ig-color: #E1306C;
+            --threads-color: #ffffff;
+            --x-color: #1DA1F2;
+            /* 自定義游標顏色定義 */
+            --accent-lilac: #d1b3ff;
         }
 
         * {
@@ -32,9 +37,48 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            line-height: 1.6;
+            /* 隱藏原生游標以顯示自定義光點 */
+            cursor: none;
         }
 
-        /* 動態背景畫布 */
+        /* 確保所有互動元素都不會顯示原生游標 */
+        a, button, [role="button"], .interactive, .progress-item, .social-card, .more-link {
+            cursor: none !important;
+        }
+
+        /* 中心實心小點 */
+        #custom-cursor {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-lilac);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none; /* 確保不會攔截鼠標事件 */
+            z-index: 9999;
+            transition: transform 0.1s ease-out, opacity 0.3s ease;
+            box-shadow: 0 0 15px 4px rgba(209, 179, 255, 0.6);
+            left: 0;
+            top: 0;
+            transform: translate(-100px, -100px);
+        }
+
+        /* 外圍擴散光暈 */
+        #custom-cursor-glow {
+            width: 30px;
+            height: 30px;
+            border: 1px solid rgba(209, 179, 255, 0.3);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.15s ease-out, opacity 0.3s ease;
+            left: 0;
+            top: 0;
+            transform: translate(-100px, -100px);
+        }
+
+        /* 背景畫布 */
         #bg-canvas {
             position: fixed;
             top: 0;
@@ -43,459 +87,546 @@
             height: 100%;
             pointer-events: none;
             z-index: 1;
+            opacity: 0.8;
         }
 
-        /* 標頭區域：佔滿首屏 */
-        .header-section {
-            width: 100%;
-            height: 100vh; /* 佔滿螢幕高度 */
+        /* 全螢幕 Hero 區塊 */
+        .hero-section {
+            width: 100vw;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            border-bottom: 1px solid var(--header-line);
             position: relative;
             z-index: 2;
-            background: radial-gradient(circle at center, rgba(30, 10, 30, 0.4) 0%, rgba(5, 5, 5, 0.8) 100%);
+            padding: 20px;
+            background: radial-gradient(circle at center, rgba(163, 234, 255, 0.05) 0%, transparent 70%);
         }
 
-        .main-title {
-            font-size: 1rem;
+        .main-title-tag {
+            font-size: 0.85rem;
             color: var(--accent-pink);
-            letter-spacing: 0.8em;
+            letter-spacing: 0.6em;
             margin-bottom: 20px;
-            opacity: 0.8;
             text-transform: uppercase;
-            animation: breathe 3s ease-in-out infinite;
-        }
-
-        @keyframes breathe {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; text-shadow: 0 0 10px var(--accent-pink); }
+            opacity: 0.8;
+            animation: fadeIn 2s ease;
         }
 
         .static-title {
-            font-size: 3rem;
-            font-weight: 900;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 700;
             letter-spacing: 0.3em;
-            text-transform: uppercase;
+            margin-bottom: 40px;
             background: linear-gradient(90deg, var(--accent-blue), var(--accent-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 30px;
+            text-shadow: 0 0 30px rgba(163, 234, 255, 0.2);
         }
 
-        /* 極大化倒數計時器 */
+        /* 倒數計時容器 */
         .timer-container {
-            margin: 20px 0;
-            font-size: 8rem; /* 更大的字體 */
-            font-weight: bold;
             display: flex;
             justify-content: center;
+            gap: clamp(10px, 3vw, 30px);
+            margin-bottom: 50px;
             flex-wrap: wrap;
-            gap: 20px;
-            color: var(--accent-blue);
-            text-shadow: 0 0 50px rgba(163, 234, 255, 0.5);
         }
 
         .timer-unit {
-            display: flex;
-            align-items: baseline;
             position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            padding: clamp(15px, 4vw, 30px);
+            border-radius: 20px;
+            min-width: clamp(80px, 15vw, 140px);
+            border: 1px solid rgba(163, 234, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .timer-unit:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-blue);
         }
 
         .timer-number {
-            font-variant-numeric: tabular-nums;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: bold;
+            color: var(--accent-blue);
+            display: block;
+            line-height: 1;
+            margin-bottom: 10px;
+            position: relative;
         }
 
         .timer-suffix {
-            font-size: 1.5rem;
-            color: var(--accent-pink);
-            margin-left: 8px;
-            font-weight: normal;
-        }
-
-        .scroll-hint {
-            position: absolute;
-            bottom: 40px;
             font-size: 0.8rem;
             color: var(--dim-color);
+            text-transform: uppercase;
             letter-spacing: 0.2em;
-            animation: bounce 2s infinite;
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
+        /* 雜訊效果 */
+        @keyframes glitch {
+            0% { clip-path: inset(20% 0 50% 0); transform: translate(-5px, -2px); }
+            20% { clip-path: inset(80% 0 10% 0); transform: translate(5px, 2px); }
+            40% { clip-path: inset(10% 0 70% 0); transform: translate(-5px, 2px); }
+            60% { clip-path: inset(50% 0 20% 0); transform: translate(5px, -2px); }
+            80% { clip-path: inset(30% 0 40% 0); transform: translate(-5px, -2px); }
+            100% { clip-path: inset(0 0 0 0); transform: translate(0); }
         }
 
-        /* 個人介紹區域 */
-        .profile-container {
-            width: 95%;
-            max-width: 900px;
-            margin: 80px 0;
-            z-index: 2;
+        .glitch {
+            animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+            color: #fff !important;
+            text-shadow: 2px 0 var(--highlight), -2px 0 var(--accent-blue);
+        }
+
+        /* 內容區塊 */
+        .section-container {
+            width: 90%;
+            max-width: var(--container-width);
+            margin: 40px 0;
+            padding: 40px;
             background: var(--card-bg);
             border: 1px solid var(--header-line);
-            padding: 50px;
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
             position: relative;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 0 40px rgba(255, 183, 255, 0.1);
-        }
-
-        .profile-container::before {
-            content: "PROFILE_DATA_v2.5_DREAMY";
-            position: absolute;
-            top: -10px;
-            left: 20px;
-            background: var(--bg-color);
-            padding: 0 10px;
-            font-size: 0.7rem;
-            color: var(--accent-pink);
-        }
-
-        h1, h2, h3, h4, h5 {
-            color: var(--accent-blue);
-            margin-bottom: 25px;
-            text-transform: uppercase;
-        }
-
-        h1 { 
-            font-size: 2.8rem; 
-            border-left: 5px solid var(--accent-pink); 
-            padding-left: 20px;
-            background: linear-gradient(to right, var(--accent-blue), var(--accent-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        h2 { 
-            font-size: 2rem; 
-            margin-top: 50px; 
-            border-bottom: 1px solid rgba(163, 234, 255, 0.3); 
-            padding-bottom: 15px; 
-        }
-        
-        p { line-height: 1.9; margin-bottom: 20px; color: #e0e0e0; }
-        
-        strong { color: var(--accent-pink); }
-        
-        .highlight-text { 
-            background: linear-gradient(135deg, var(--accent-pink), var(--highlight)); 
-            color: white; 
-            padding: 3px 8px;
-            border-radius: 4px;
-        }
-
-        .profile-img {
-            width: 100%;
-            max-width: 450px;
-            border: 1px solid var(--accent-pink);
-            margin: 25px 0;
-            filter: contrast(1.05) brightness(1.1);
-            transition: 0.5s;
-            box-shadow: 0 0 20px rgba(255, 183, 255, 0.2);
-        }
-        .profile-img:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(255, 183, 255, 0.4); }
-
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 30px;
-        }
-        .gallery img {
-            flex: 1;
-            min-width: 250px;
-            border: 1px solid var(--accent-blue);
-            height: 250px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-
-        ul { list-style: none; padding-left: 0; }
-        li { margin-bottom: 12px; position: relative; padding-left: 25px; }
-        li::before { content: "✦"; position: absolute; left: 0; color: var(--accent-pink); }
-
-        blockquote {
-            border-left: 3px solid var(--accent-pink);
-            padding-left: 25px;
-            margin: 30px 0;
-            font-style: italic;
-            color: #bbb;
-            background: rgba(255, 183, 255, 0.05);
-            padding-top: 15px;
-            padding-bottom: 15px;
-        }
-
-        a { color: var(--accent-blue); text-decoration: none; border-bottom: 1px dashed var(--accent-blue); transition: 0.3s; }
-        a:hover { color: var(--accent-pink); border-bottom-color: var(--accent-pink); text-shadow: 0 0 8px var(--accent-pink); }
-
-        .status-bar {
-            width: 95%;
-            max-width: 900px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--dim-color);
-            padding: 30px 0;
-            border-top: 1px solid var(--header-line);
-            margin-bottom: 80px;
             z-index: 2;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
         }
 
-        @media (max-width: 768px) {
-            .timer-container { font-size: 4rem; gap: 10px; }
-            .static-title { font-size: 2rem; }
-            .profile-container { padding: 25px; }
-            h1 { font-size: 2rem; }
+        /* 進度條樣式 */
+        .progress-list { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+        .progress-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .progress-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(163, 234, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        .progress-main { padding: 24px; }
+        .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.95rem; }
+        .progress-title { color: var(--accent-blue); font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .arrow-icon { font-size: 0.7rem; transition: transform 0.3s ease; color: var(--dim-color); }
+        .progress-item.active .arrow-icon { transform: rotate(180deg); color: var(--accent-pink); }
+        .progress-bar-bg { width: 100%; height: 6px; background: rgba(0, 0, 0, 0.3); border-radius: 3px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent-blue), var(--accent-pink)); width: 0%; transition: width 2s ease-out; }
+        .progress-details { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); background: rgba(0, 0, 0, 0.2); }
+        .progress-item.active .progress-details { max-height: 300px; }
+        .progress-content-inner { padding: 20px 24px 24px; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+        .progress-desc { font-size: 0.85rem; color: #aaa; line-height: 1.8; }
+        .progress-desc span { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+        .progress-desc span::before { content: "»"; color: var(--accent-blue); font-weight: bold; }
+
+        /* More Details 連結樣式 */
+        .more-details-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+        .more-link {
+            font-size: 0.8rem;
+            color: var(--accent-lilac);
+            text-decoration: none;
+            letter-spacing: 0.2em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+            font-weight: bold;
+        }
+        .more-link:hover {
+            opacity: 1;
+            text-shadow: 0 0 8px var(--accent-lilac);
+            transform: translateX(5px);
+        }
+        .more-link::after {
+            content: "→";
+            transition: transform 0.3s ease;
+        }
+        .more-link:hover::after {
+            transform: translateX(3px);
+        }
+
+        /* 個人介紹 */
+        .profile-header { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; }
+        .profile-avatar {
+            width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--accent-pink);
+            object-fit: cover; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .profile-avatar:hover { transform: scale(1.15) rotate(5deg); border-color: var(--accent-blue); box-shadow: 0 0 20px rgba(163, 234, 255, 0.3); }
+
+        h1 { font-size: 2rem; color: var(--accent-blue); }
+        h2 { font-size: 1.4rem; margin: 40px 0 20px; color: var(--accent-pink); border-bottom: 1px solid var(--header-line); padding-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em; }
+
+        .social-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .social-card {
+            background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 16px; text-align: center;
+            text-decoration: none; color: var(--text-primary); border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; gap: 8px;
+        }
+        .social-card:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.1); }
+        .social-card.ig:hover { border-color: var(--ig-color); color: var(--ig-color); }
+        .social-card.threads:hover { border-color: var(--threads-color); color: var(--threads-color); }
+        .social-card.x:hover { border-color: var(--x-color); color: var(--x-color); }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.03); padding: 15px 20px; border-radius: 12px; margin-bottom: 12px;
+            display: flex; align-items: center; gap: 15px; font-size: 0.95rem; border: 1px solid rgba(255, 255, 255, 0.02);
+            border-left: 3px solid transparent; transition: all 0.3s ease;
+        }
+        .info-card:hover { background: rgba(255, 255, 255, 0.08); border-left-color: var(--accent-pink); transform: translateX(8px); }
+
+        .profile-main-img { width: 100%; border-radius: 16px; margin: 20px 0; border: 1px solid var(--header-line); transition: all 0.5s ease; }
+        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .gallery-item { overflow: hidden; border-radius: 12px; border: 1px solid var(--header-line); position: relative; }
+        .gallery-item img { width: 100%; height: 200px; object-fit: cover; transition: transform 0.6s ease; display: block; }
+        .gallery-item:hover img { transform: scale(1.1); }
+
+        .footer { padding: 60px; color: var(--dim-color); font-size: 0.8rem; text-align: center; letter-spacing: 0.2em; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 600px) {
+            .section-container { padding: 25px 20px; }
+            .timer-unit { min-width: 70px; padding: 15px 10px; }
+            .gallery-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 粉藍與粉紅的動態粒子背景 -->
+    <!-- 自定義游標結構 -->
+    <div id="custom-cursor"></div>
+    <div id="custom-cursor-glow"></div>
+
     <canvas id="bg-canvas"></canvas>
 
-    <div class="header-section">
-        <div class="main-title">// $T@RT FR#M TH!S STEP //</div>
-        <div class="static-title">距離119學測還有</div>
+    <!-- 倒數區塊 -->
+    <div class="hero-section">
+        <div class="main-title-tag">MISSION_01 // 2030_PROJECT</div>
+        <div class="static-title">距離 119 學測還有</div>
         
         <div class="timer-container" id="countdown">
-            <div class="timer-unit"><span class="timer-number" id="d">00</span><span class="timer-suffix">天</span></div>
-            <div class="timer-unit"><span class="timer-number" id="h">00</span><span class="timer-suffix">時</span></div>
-            <div class="timer-unit"><span class="timer-number" id="m">00</span><span class="timer-suffix">分</span></div>
-            <div class="timer-unit"><span class="timer-number" id="s">00</span><span class="timer-suffix">秒</span></div>
+            <div class="timer-unit">
+                <span class="timer-number" id="d">00</span>
+                <span class="timer-suffix">DAYS</span>
+            </div>
+            <div class="timer-unit">
+                <span class="timer-number" id="h">00</span>
+                <span class="timer-suffix">HOURS</span>
+            </div>
+            <div class="timer-unit">
+                <span class="timer-number" id="m">00</span>
+                <span class="timer-suffix">MINUTES</span>
+            </div>
+            <div class="timer-unit">
+                <span class="timer-number" id="s">00</span>
+                <span class="timer-suffix">SECONDS</span>
+            </div>
         </div>
-
-        <div class="timer-label" style="color: var(--dim-color); font-size: 0.9rem;">FINAL_DATE: 2030_01_19 | THE_PROMISED_LAND</div>
         
-        <div class="scroll-hint">▼ 下滑認識三凡凡 ▼</div>
+        <div style="text-align: center;">
+            <p style="color: var(--accent-pink); font-size: 1rem; letter-spacing: 0.4em; margin-bottom: 10px;">TARGET: MATH_DEPT_NTU</p>
+            <p style="color: var(--dim-color); font-size: 0.7rem;">SCROLL DOWN TO EXPLORE STATUS</p>
+            <div style="margin-top: 20px; color: var(--accent-blue); animation: fadeIn 2s infinite alternate;">↓</div>
+        </div>
     </div>
 
-    <div class="profile-container">
-        <h1>個人介紹</h1>
-        <img src="https://hackmd.io/_uploads/Hyw2fjP3xg.jpg" alt="[firefly]" class="profile-img">
-        
-        <hr style="border: none; border-top: 1px solid var(--header-line); margin: 40px 0;">
+    <!-- 進度區塊 -->
+    <div class="section-container">
+        <div class="main-title-tag" style="text-align: left;">[ LEARNING_STATUS ]</div>
+        <div class="progress-list">
+            <!-- C++ 進度 -->
+            <div class="progress-item" onclick="toggleProgress(this)">
+                <div class="progress-main">
+                    <div class="progress-header">
+                        <span class="progress-title">C++_DEVELOPMENT <span class="arrow-icon">▼</span></span>
+                        <span>45%</span>
+                    </div>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 45%;"></div></div>
+                </div>
+                <div class="progress-details">
+                    <div class="progress-content-inner">
+                        <div class="progress-desc">
+                            <span>基礎語法、指標 (Pointers) 與記憶體管理初步理解</span>
+                            <span>STL 容器與演算法專題練習</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <h3>嗨，三凡凡。</h3>
-        <p><strong>Ciallo～(∠・ω&lt; )⌒☆</strong></p>
-        <p>早安，我是一個國中生，同時也是一個買夠廚。</p>
-        <p>我平常出沒在 Instagram 還有 Discord，發一些無聊的貼文 (例如美好的獎學金)，還有瘋狂的推我喜歡的角色 (像是溫迪、流螢還有芙寧娜)。</p>
-        <p>我現在正在學習包括 <strong>C++</strong> 和 <strong>Python</strong> 的程式語言，還有高中的數學，我的目標是考上<strong>台大數學系</strong>。</p>
-        <p>我的日常興趣不多，主要是 玩<strong>遊戲</strong> (包括崩鐵、Minecraft 和一些小品遊戲)、<strong>寫程式</strong> (我現在正在學習 <strong>C++</strong> 和 <strong>Python</strong>) 還有在看看 Neuro-Sama，接著被丟到角落。</p>
+            <!-- 數學進度 -->
+            <div class="progress-item" onclick="toggleProgress(this)">
+                <div class="progress-main">
+                    <div class="progress-header">
+                        <span class="progress-title">ADVANCED_MATHEMATICS <span class="arrow-icon">▼</span></span>
+                        <span>72%</span>
+                    </div>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 72%;"></div></div>
+                </div>
+                <div class="progress-details">
+                    <div class="progress-content-inner">
+                        <div class="progress-desc">
+                            <span>高中數學總複習：函數與三角函數完成</span>
+                            <span>微積分基礎概念 (極限與導數) 學習中</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <h2>社群媒體</h2>
-        <p>你可以在這裡找到我。</p>
-        <p>暱稱：三凡</p>
-        <h4>Discord : meng_0251</h4>
-        
-        <h5>其他社群媒體</h5>
-        <blockquote>
-            <ul>
-                <li><span class="highlight-text"><a href="https://instagram.com/nightstar_lol" target="_blank">Instagram</a></span></li>
-                <li><span class="highlight-text"><a href="https://threads.com/@nightstar_lol" target="_blank">Threads</a></span></li>
-                <li><span class="highlight-text"><a href="https://x.com/dreyu23" target="_blank">X</a></span></li>
-            </ul>
-        </blockquote>
+            <!-- 英文進度 -->
+            <div class="progress-item" onclick="toggleProgress(this)">
+                <div class="progress-main">
+                    <div class="progress-header">
+                        <span class="progress-title">ENGLISH_FLUENCY <span class="arrow-icon">▼</span></span>
+                        <span>60%</span>
+                    </div>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 60%;"></div></div>
+                </div>
+                <div class="progress-details">
+                    <div class="progress-content-inner">
+                        <div class="progress-desc">
+                            <span>7000 單字量達成 4200 點</span>
+                            <span>每日英文科技新聞閱讀訓練</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <h2>學歷</h2>
-        <blockquote>
-            <ul><li>國中2年級</li></ul>
-        </blockquote>
-
-        <h2>愛遊戲</h2>
-        <blockquote>
-            <ul>
-                <li>Minecraft</li>
-                <li>原神</li>
-                <li>崩壞：星穹鐵道</li>
-                <li>跑跑薑餅人：烤箱大逃亡</li>
-                <li>重返未來：1999</li>
-            </ul>
-        </blockquote>
-
-        <h2>愛音樂</h2>
-        <blockquote>
-            <ul>
-                <li>Tayori</li>
-                <li>Yoasobi</li>
-                <li>TOGENASHI TOGEARI</li>
-                <li>MyGo!</li>
-                <li>Yorushika</li>
-                <li>Les Gordon</li>
-                <li><a href="https://youtube.com/@ifeisu0402" target="_blank">ifeisu</a></li>
-            </ul>
-        </blockquote>
-
-        <h2><del>推角</del></h2>
-        <blockquote>
-            <ul>
-                <li>流螢</li>
-                <li>芙寧娜</li>
-                <li>蒂娜・霍華德</li>
-                <li>溫迪</li>
-            </ul>
-        </blockquote>
-
-        <h2>願望清單</h2>
-        <blockquote>
-            <ul>
-                <li>台大數學系</li>
-                <li>北大研究所</li>
-                <li>寫出一個機器人</li>
-                <li>在 STEAM 上架一款遊戲</li>
-            </ul>
-        </blockquote>
-
-        <hr style="border: none; border-top: 1px solid var(--header-line); margin: 40px 0;">
-
-        <h4 style="color: var(--accent-pink);">流螢很可愛owo</h4>
-        <div class="gallery">
-            <img src="https://hackmd.io/_uploads/HyjqGiv2ge.jpg" alt="[流螢插圖1]">
-            <img src="https://hackmd.io/_uploads/S1eoMjDhle.jpg" alt="[流螢插圖2]">
+            <!-- 物理進度 -->
+            <div class="progress-item" onclick="toggleProgress(this)">
+                <div class="progress-main">
+                    <div class="progress-header">
+                        <span class="progress-title">PHYSICS_CORE <span class="arrow-icon">▼</span></span>
+                        <span>30%</span>
+                    </div>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 30%;"></div></div>
+                </div>
+                <div class="progress-details">
+                    <div class="progress-content-inner">
+                        <div class="progress-desc">
+                            <span>古典力學：牛頓運動定律強化中</span>
+                            <span>動量與衝量基礎理解</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <h4 style="margin-top: 40px; color: var(--accent-blue);">溫迪也很可愛owo</h4>
-        <img src="https://hackmd.io/_uploads/S1cp63e6-l.jpg" alt="[溫迪插圖]" class="profile-img" style="max-width: 100%;">
-
-        <p style="margin-top: 60px;">聯絡我：<a href="mailto:dreyu203@gmail.com">dreyu203@gmail.com</a></p>
+        <!-- 新增的 More Details 連結 -->
+        <div class="more-details-wrapper">
+            <a href="https://edian.work/progress" class="more-link" target="_blank">MORE DETAILS</a>
+        </div>
     </div>
 
-    <div class="status-bar">
-        <span>DESIGNED BY NIGHTSTAR</span>
-        <span></span>
-        <span></span>
+    <!-- 個人介紹區 -->
+    <div class="section-container">
+        <div class="profile-header">
+            <img src="https://hackmd.io/_uploads/Hyw2fjP3xg.jpg" class="profile-avatar" alt="Avatar">
+            <div>
+                <h1>三凡凡</h1>
+                <p style="margin: 0; font-size: 0.8rem; color: var(--accent-pink);">Discord: meng_0251</p>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <span style="color: var(--accent-blue); font-weight: bold;">身份</span>
+            <span>國中生 / 自學開發者</span>
+        </div>
+        <div class="info-card">
+            <span style="color: var(--accent-blue); font-weight: bold;">目標</span>
+            <span>2030 年考上國立臺灣大學數學系</span>
+        </div>
+        <div class="info-card">
+            <span style="color: var(--accent-blue); font-weight: bold;">興趣</span>
+            <span>演算法、數學建模、動漫 (Venti 廚)</span>
+        </div>
+
+        <p style="margin: 20px 0;"><strong>Ciallo～(∠・ω&lt; )⌒☆</strong></p>
+        <p> 早安，我是一個國中生，同時也是一個買夠廚。目前正在學習 C++、Python 與高中數學，夢想是考上台大數學系。</p>
+
+        <h2>社群連結 / CONNECT</h2>
+        <div class="social-grid">
+            <a href="#" class="social-card ig">Instagram</a>
+            <a href="#" class="social-card threads">Threads</a>
+            <a href="#" class="social-card x">X / Twitter</a>
+        </div>
+
+        <h2>視覺收藏 / VISUALS</h2>
+        <img src="https://hackmd.io/_uploads/S1cp63e6-l.jpg" class="profile-main-img" alt="Venti">
+        
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&q=80&w=400" alt="Math">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=400" alt="Code">
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2024-2030 NIGHTSTAR | MISSION_STRIKE_BACK
     </div>
 
     <script>
-        // --- 倒數計時邏輯 ---
-        const targetDate = new Date("Jan 19, 2030 00:00:00").getTime();
+        // --- 1. 自定義游標邏輯 ---
+        const cursor = document.getElementById('custom-cursor');
+        const cursorGlow = document.getElementById('custom-cursor-glow');
 
-        function updateCountdown() {
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursor.style.transform = `translate(${posX - 4}px, ${posY - 4}px)`;
+            cursorGlow.style.transform = `translate(${posX - 15}px, ${posY - 15}px)`;
+            
+            // 同步座標給粒子系統
+            if (typeof mouse !== 'undefined') {
+                mouse.x = posX;
+                mouse.y = posY;
+            }
+        });
+
+        window.addEventListener('mousedown', () => {
+            cursor.style.transform += ' scale(0.8)';
+            cursorGlow.style.transform += ' scale(1.5)';
+            cursorGlow.style.background = 'rgba(209, 179, 255, 0.1)';
+        });
+
+        window.addEventListener('mouseup', () => {
+            cursorGlow.style.background = 'transparent';
+        });
+
+        document.addEventListener('mouseenter', () => {
+            cursor.style.opacity = '1';
+            cursorGlow.style.opacity = '1';
+        });
+        
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+            cursorGlow.style.opacity = '0';
+        });
+
+        // --- 2. 倒數計時邏輯 ---
+        function toggleProgress(element) { element.classList.toggle('active'); }
+
+        const targetDate = new Date("Jan 19, 2030 00:00:00").getTime();
+        let prevValues = { d: "", h: "", m: "", s: "" };
+
+        function updateTimer() {
             const now = new Date().getTime();
             const diff = targetDate - now;
+            if (diff <= 0) return;
 
-            if (diff <= 0) {
-                const container = document.getElementById("countdown");
-                if (container) container.innerHTML = "DREAM_INITIALIZED";
-                return;
-            }
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            const s = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
 
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const secs = Math.floor((diff % (1000 * 60)) / 1000);
-
-            const dEl = document.getElementById("d");
-            const hEl = document.getElementById("h");
-            const mEl = document.getElementById("m");
-            const sEl = document.getElementById("s");
-
-            if (dEl) dEl.innerText = days.toString().padStart(2, '0');
-            if (hEl) hEl.innerText = hours.toString().padStart(2, '0');
-            if (mEl) mEl.innerText = mins.toString().padStart(2, '0');
-            if (sEl) sEl.innerText = secs.toString().padStart(2, '0');
+            updateElement(d, "d", true);
+            updateElement(h, "h", true);
+            updateElement(m, "m", false);
+            updateElement(s, "s", false);
         }
 
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
+        function updateElement(newVal, id, useGlitch) {
+            const el = document.getElementById(id);
+            if (prevValues[id] !== newVal) {
+                el.innerText = newVal;
+                if (useGlitch && prevValues[id] !== "") {
+                    el.classList.add('glitch');
+                    setTimeout(() => el.classList.remove('glitch'), 300);
+                }
+                prevValues[id] = newVal;
+            }
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
 
-        // --- 動態粒子背景 (粉藍 + 粉紅) ---
+        // --- 3. 粒子背景邏輯 ---
         const canvas = document.getElementById('bg-canvas');
-        if (canvas) {
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-            const particleCount = 400;
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null };
+        const particleCount = 100;
+        const connectionDistance = 140;
 
-            class Particle {
-                constructor() {
-                    this.reset();
-                    this.y = Math.random() * (canvas.height || window.innerHeight);
-                }
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        resize();
 
-                reset() {
-                    this.x = Math.random() * (canvas.width || window.innerWidth);
-                    this.y = (canvas.height || window.innerHeight) + 10;
-                    this.size = Math.random() * 2.5 + 0.2;
-                    this.speedX = (Math.random() - 0.5) * 0.3;
-                    this.speedY = (Math.random() * -1.0) - 0.2;
-                    this.opacity = Math.random() * 0.5 + 0.1;
-                    
-                    // 隨機分配粉藍或粉紅
-                    this.color = Math.random() > 0.5 ? '163, 234, 255' : '255, 183, 255';
-                }
-
-                update() {
-                    this.x += this.speedX;
-                    this.y += this.speedY;
-
-                    if (this.y < -20 || this.x < -20 || this.x > (canvas.width || window.innerWidth) + 20) {
-                        this.reset();
-                    }
-                }
-
-                draw() {
-                    ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
-                    const jitterX = (Math.random() - 0.5) * 1.2;
-                    const jitterY = (Math.random() - 0.5) * 1.2;
-                    ctx.fillRect(this.x + jitterX, this.y + jitterY, this.size, this.size);
-                }
+        class Particle {
+            constructor() { this.init(); }
+            init() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.7;
+                this.speedY = (Math.random() - 0.5) * 0.7;
+                this.opacity = Math.random() * 0.5 + 0.2;
             }
-
-            function initParticles() {
-                particles = [];
-                for (let i = 0; i < particleCount; i++) {
-                    particles.push(new Particle());
-                }
+            update() {
+                this.x += this.speedX; this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
             }
-
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-                initParticles();
+            draw() {
+                ctx.fillStyle = `rgba(163, 234, 255, ${this.opacity})`;
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
             }
-
-            function animate() {
-                if (canvas.width <= 0 || canvas.height <= 0) {
-                    requestAnimationFrame(animate);
-                    return;
-                }
-
-                // 黑色底層帶有一點點紫色調
-                ctx.fillStyle = '#080508';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                // 靜態雜訊層 (微弱的彩色點)
-                try {
-                    const idata = ctx.createImageData(canvas.width, canvas.height);
-                    const buffer32 = new Uint32Array(idata.data.buffer);
-                    for (let i = 0; i < buffer32.length; i++) {
-                        if (Math.random() < 0.1) {
-                            const isPink = Math.random() > 0.5;
-                            // 加入非常淡的粉紅與粉藍點點在背景
-                            const val = Math.floor(Math.random() * 15) + 5;
-                            buffer32[i] = (val << 24) | (isPink ? 0xffb7ff : 0xa3eaff);
-                        }
-                    }
-                    ctx.putImageData(idata, 0, 0);
-                } catch (e) {}
-
-                particles.forEach(p => {
-                    p.update();
-                    p.draw();
-                });
-
-                requestAnimationFrame(animate);
-            }
-
-            window.addEventListener('resize', resize);
-            resize();
-            animate();
         }
+
+        function initParticles() {
+            for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+        }
+
+        function drawLines() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    let dx = particles[i].x - particles[j].x;
+                    let dy = particles[i].y - particles[j].y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < connectionDistance) {
+                        let alpha = 1 - (dist / connectionDistance);
+                        ctx.strokeStyle = `rgba(163, 234, 255, ${alpha * 0.15})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
+                    }
+                }
+                if (mouse.x && mouse.y) {
+                    let dx = mouse.x - particles[i].x;
+                    let dy = mouse.y - particles[i].y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < connectionDistance) {
+                        let alpha = 1 - (dist / connectionDistance);
+                        ctx.strokeStyle = `rgba(209, 179, 255, ${alpha * 0.3})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            drawLines();
+            requestAnimationFrame(animate);
+        }
+        initParticles();
+        animate();
     </script>
 </body>
 </html>
