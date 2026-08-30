@@ -1,0 +1,116 @@
+@font-face {
+    font-family: "標題字体";
+    src: url("fonts/源柔ゴシック500.ttf") format("truetype");
+}
+
+
+@font-face {
+    font-family: "文字字体";
+    src: url("fonts/霞鶩銘心宋.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "大標字体";
+    src: url("fonts/精品點陣體9x9 漸層版.ttf") format("truetype");
+}
+
+body {
+    font-family: "文字字体", sans-serif;
+    font-size: 25px;
+}
+h1 {
+    text-align: center;
+    font-size: 150px;
+    font-family: "大標字体", sans-serif;
+}
+
+li {
+    font-family: "標題字体", sans-serif;
+    font-size: 40px;
+    text-align:left;
+    list-style-type: none;
+    gap: 40px;
+}
+
+.herobelow{
+    font-size:30px;
+    font-family: "標題字体", sans-serif;
+}
+
+.littlesize{
+    font-size:30px;
+}
+
+body {
+    background-color: #97eaff;
+    text-align: center;
+    font-size: 45px;
+    min-width: 350px;
+}
+
+.left-side {
+    text-align: left;
+}
+
+.right-side {
+    text-align: right;
+}
+
+.left, .right {
+    flex:1;
+    vertical-align: top;
+    width: 45%;
+}
+
+.about-me {
+    display: flex;
+    background-color: #97eaff;
+    padding: 15px;
+    margin: 25px 25px;
+}
+
+.photo {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+}
+
+nav > ul {
+  background-color: #97eaff;
+  list-style: none; /* 移除項目符號 */
+  margin: 0;
+  padding: 0;
+}
+nav a {
+  color: inherit; /* 移除超連結顏色 */
+  font-size: 1.2rem;
+  text-decoration: none; /* 移除超連結底線 */
+}
+
+/* 滑鼠移到 `<a>` 時變成深底淺色 */
+nav a:hover {
+  background-color: #456972;
+  color: white;
+}
+
+.flex-nav {
+  display: flex;
+  justify-content: right;
+  gap: 20px; /* 項目間距 */
+  padding-right: 10px;
+}
+
+.logo{
+    float: left;
+}
+
+html {
+  scroll-behavior: smooth; /* 全局啟用平滑滾動 */
+}
+
+.scroll-btn {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+
